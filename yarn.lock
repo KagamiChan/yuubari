@@ -4137,6 +4137,10 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/map-obj/download/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
+material-design-icons-iconfont-only@^3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/material-design-icons-iconfont-only/download/material-design-icons-iconfont-only-3.0.1.tgz#cc1344c7d00b752e161dc4f6371662146bad1672"
+
 material-ui-icons@^1.0.0-alpha.19:
   version "1.0.0-alpha.19"
   resolved "http://registry.npm.taobao.org/material-ui-icons/download/material-ui-icons-1.0.0-alpha.19.tgz#a6c5db87be335bbc483189c56804d681b7ea6b54"

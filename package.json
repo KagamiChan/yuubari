@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://kagamichan.github.io/yuubari",
   "dependencies": {
+    "material-design-icons-iconfont-only": "^3.0.1",
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",
