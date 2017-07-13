@@ -26,12 +26,12 @@ class MainView extends Component {
   }
 
   fetchRecipes = async () => {
-    const res = await fetch('http://poi.0u0.moe/api/recipe/full')
+    const res = await fetch('//poi.0u0.moe/api/recipe/full')
     return res.json()
   }
 
   fetchStart2 = async () => {
-    const res = await fetch('http://poi.0u0.moe/api/recipe/start2')
+    const res = await fetch('//poi.0u0.moe/api/recipe/start2')
     const { data } = await res.json()
     return ({
       ships: keyBy(data.api_mst_ship, 'api_id'),
