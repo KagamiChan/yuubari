@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { MuiThemeProvider, createMuiTheme, createPalette, withStyles, createStyleSheet } from 'material-ui/styles'
+import { MuiThemeProvider, createMuiTheme, createPalette } from 'material-ui/styles'
 import lightGreen from 'material-ui/colors/lightGreen'
 import amber from 'material-ui/colors/amber'
 

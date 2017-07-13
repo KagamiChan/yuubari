@@ -4,13 +4,17 @@
   "private": true,
   "homepage": "https://kagamichan.github.io/yuubari",
   "dependencies": {
+    "lodash": "^4.17.4",
     "material-design-icons-iconfont-only": "^3.0.1",
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-scripts": "1.0.10",
+    "redux": "^3.7.2",
+    "reselect": "^3.0.1",
     "typeface-roboto": "^0.0.31"
   },
   "scripts": {
@@ -23,7 +27,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^4.2.0",
+    "eslint": "3",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "5",
