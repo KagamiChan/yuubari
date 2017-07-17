@@ -1,6 +1,9 @@
 import React from 'react'
 
-import { AppBar, Toolbar, Typography, Button } from 'material-ui'
+import AppBar from 'material-ui/AppBar'
+import Toolbar from 'material-ui/Toolbar'
+import Typography from 'material-ui/Typography'
+import Button from 'material-ui/Button'
 
 import { withStyles, createStyleSheet } from 'material-ui/styles'
 

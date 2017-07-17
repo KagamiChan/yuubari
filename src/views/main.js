@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import keyBy from 'lodash/keyBy'
 
+import Recipe from './recipe'
+
 class MainView extends Component {
   state = {
     loading: false,
@@ -42,7 +44,23 @@ class MainView extends Component {
   }
 
   render() {
-    return <div />
+    const { recipes, ships, items, types } = this.state
+    return (
+      <div>
+        {
+          Object.keys(recipes).map(itemId => (
+            <Recipe
+              key={itemId}
+              item={items[itemId]}
+              items={items}
+              recipe={recipes[itemId]}
+              ships={ships}
+              types={types}
+            />
+          ))
+        }
+      </div>
+    )
   }
 }
 
