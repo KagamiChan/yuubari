@@ -8,7 +8,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles'
 
 import WeekDay from './week-day'
 
-const styles = createStyleSheet('Stage', {
+const styles = createStyleSheet('Stage', theme => ({
   item: {
     display: 'flex',
   },
@@ -28,7 +28,10 @@ const styles = createStyleSheet('Stage', {
       marginBottom: '1ex',
     },
   },
-})
+  header: {
+    backgroundColor: theme.palette.accent[100],
+  },
+}))
 
 const stages = [
   <span>1 ~ 6</span>,
@@ -44,7 +47,7 @@ const Stage = ({ level, detail, items, ships, classes, ...props }) => {
   if (level === 2) {
     return (
       <div {...props}>
-        <Typography type="button">
+        <Typography type="button" className={classes.header}>
           {stages[level]}
         </Typography>
         {
@@ -89,7 +92,7 @@ const Stage = ({ level, detail, items, ships, classes, ...props }) => {
 
   return (
     <div {...props}>
-      <Typography type="button">
+      <Typography type="button" className={classes.header}>
         {stages[level]}
       </Typography>
       {
