@@ -11,7 +11,7 @@ import Stage from './stage'
 
 const styles = createStyleSheet('Recipe', {
   card: {
-    width: 300,
+    width: 500,
   },
   commonCost: {
     display: 'flex',
@@ -19,6 +19,11 @@ const styles = createStyleSheet('Recipe', {
   cost: {
     '&:not(:last-child)': {
       marginRight: '2ex',
+    },
+  },
+  stage: {
+    '&:not(:last-child)': {
+      marginBottom: '2ex',
     },
   },
 })
@@ -36,7 +41,7 @@ class Recipe extends Component {
           <Typography type="body1" className={classes.commonCost}>
             {
               ['fuel', 'ammo', 'steel', 'bauxite'].map(cost => (
-                <Stat label={cost} className={classes.cost}>
+                <Stat key={cost} label={cost} className={classes.cost}>
                   {common[cost]}
                 </Stat>
               ))
@@ -45,7 +50,7 @@ class Recipe extends Component {
           <Typography type="body1" className={classes.stages}>
             {
               [0, 1, 2].map(level =>
-                <Stage key={level} level={level} detail={stage[level]} ships={ships} items={items} />
+                <Stage key={level} level={level} detail={stage[level]} ships={ships} items={items} className={classes.stage} />
               )
             }
           </Typography>

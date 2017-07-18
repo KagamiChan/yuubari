@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://kagamichan.github.io/yuubari",
   "dependencies": {
+    "classnames": "^2.2.5",
+    "date-fns": "^1.28.5",
     "lodash": "^4.17.4",
     "material-design-icons-iconfont-only": "^3.0.1",
     "material-ui": "next",
