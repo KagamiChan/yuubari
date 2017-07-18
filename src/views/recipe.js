@@ -11,7 +11,9 @@ import Stage from './stage'
 
 const styles = createStyleSheet('Recipe', {
   card: {
-    width: 500,
+    width: '100%',
+    marginBottom: '1em',
+    breakInside: 'avoid',
   },
   commonCost: {
     display: 'flex',

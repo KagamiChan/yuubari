@@ -4,6 +4,17 @@ import keyBy from 'lodash/keyBy'
 
 import Recipe from './recipe'
 
+import { withStyles, createStyleSheet } from 'material-ui/styles'
+
+const styles = createStyleSheet('Main', {
+  main: {
+    margin: '2em 4em 0 4em',
+    columnCount: 3,
+    columnGap: '1em',
+    columnFill: 'balance',
+  },
+})
+
 class MainView extends Component {
   state = {
     loading: false,
@@ -45,8 +56,9 @@ class MainView extends Component {
 
   render() {
     const { recipes, ships, items, types } = this.state
+    const { classes } = this.props
     return (
-      <div>
+      <div className={classes.main}>
         {
           Object.keys(recipes).map(itemId => (
             <Recipe
@@ -64,4 +76,4 @@ class MainView extends Component {
   }
 }
 
-export default MainView
+export default withStyles(styles)(MainView)
