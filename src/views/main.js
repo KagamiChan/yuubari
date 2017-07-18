@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-
 import keyBy from 'lodash/keyBy'
+import format from 'date-fns/format'
+
+import Typography from 'material-ui/Typography'
+import { LinearProgress } from 'material-ui/Progress'
 
 import Recipe from './recipe'
 
@@ -8,10 +11,14 @@ import { withStyles, createStyleSheet } from 'material-ui/styles'
 
 const styles = createStyleSheet('Main', {
   main: {
-    margin: '2em 4em 0 4em',
+    margin: '2em 4em 2em 4em',
     columnCount: 3,
     columnGap: '1em',
     columnFill: 'balance',
+  },
+  footer: {
+    textAlign: 'center',
+    height: '2em',
   },
 })
 
@@ -55,22 +62,34 @@ class MainView extends Component {
   }
 
   render() {
-    const { recipes, ships, items, types } = this.state
+    const { recipes, ships, items, types, time } = this.state
     const { classes } = this.props
     return (
-      <div className={classes.main}>
+      <div>
         {
-          Object.keys(recipes).map(itemId => (
-            <Recipe
-              key={itemId}
-              item={items[itemId]}
-              items={items}
-              recipe={recipes[itemId]}
-              ships={ships}
-              types={types}
-            />
-          ))
+          !Object.keys(recipes).length &&
+          <LinearProgress />
         }
+        <div className={classes.main}>
+          {
+            Object.keys(recipes).map(itemId => (
+              <Recipe
+                key={itemId}
+                item={items[itemId]}
+                items={items}
+                recipe={recipes[itemId]}
+                ships={ships}
+                types={types}
+              />
+            ))
+          }
+        </div>
+        <div className={classes.footer}>
+          <Typography type="button">
+            <span>Made with 🍈. </span>
+            { !!time && `Last update: ${format(time, 'YYYY-MM-DD HH:mm:ss')}`}
+          </Typography>
+        </div>
       </div>
     )
   }
