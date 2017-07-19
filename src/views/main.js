@@ -18,6 +18,12 @@ const styles = createStyleSheet('Main', {
     textAlign: 'center',
     height: '2em',
   },
+  masonry: {
+    outline: 'none',
+    '&>div': {
+      paddingBottom: '10px',
+    },
+  },
 })
 
 class MainView extends Component {
@@ -145,6 +151,7 @@ class MainView extends Component {
                             height={height}
                             width={width}
                             ref={(ref) => { this.masonry = ref }}
+                            className={classes.masonry}
                           />
                         )
                       }
