@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import keyBy from 'lodash/keyBy'
 import format from 'date-fns/format'
+import { CellMeasurer, CellMeasurerCache, createMasonryCellPositioner, Masonry, AutoSizer, WindowScroller } from 'react-virtualized'
 
 import Typography from 'material-ui/Typography'
 import { LinearProgress } from 'material-ui/Progress'
@@ -12,9 +13,6 @@ import { withStyles, createStyleSheet } from 'material-ui/styles'
 const styles = createStyleSheet('Main', {
   main: {
     margin: '2em 4em 2em 4em',
-    columnCount: 3,
-    columnGap: '1em',
-    columnFill: 'balance',
   },
   footer: {
     textAlign: 'center',
@@ -28,17 +26,19 @@ class MainView extends Component {
     time: 0,
     count: 0,
     recipes: {},
+    cellIndex: [],
   }
 
   componentDidMount = async () => {
     try {
       const { ships, items, types } = await this.fetchStart2()
-      const recipes = await this.fetchRecipes()
+      const recipesData = await this.fetchRecipes()
       this.setState({
         ships,
         items,
         types,
-        ...recipes,
+        cellIndex: Object.keys(recipesData.recipes),
+        ...recipesData,
       })
     } catch (e) {
       console.error(e)
@@ -61,8 +61,59 @@ class MainView extends Component {
     })
   }
 
+  columnCount = 3
+  columnWidth = 550
+  spacer = 16
+
+  cellMeasurerCache = new CellMeasurerCache({
+    defaultHeight: 400,
+    defaultWidth: this.columnWidth,
+    fixedWidth: true,
+  })
+
+  cellPositioner = createMasonryCellPositioner({
+    cellMeasurerCache: this.cellMeasurerCache,
+    columnCount: this.columnCount,
+    columnWidth: this.columnWidth,
+    spacer: this.spacer,
+  })
+
+  cellRenderer = ({ index, key, parent, style }) => {
+    const { recipes, ships, items, types, cellIndex } = this.state
+    const itemId = cellIndex[index]
+    return (
+      <CellMeasurer cache={this.cellMeasurerCache} index={index} key={key} parent={parent}>
+        <Recipe
+          style={style}
+          item={items[itemId]}
+          items={items}
+          recipe={recipes[itemId]}
+          ships={ships}
+          types={types}
+        />
+      </CellMeasurer>
+    )
+  }
+
+  handleResize = ({ width }) => {
+    this.columnCount = Math.floor(width / (this.columnWidth + this.spacer))
+    this.resetCellPositioner()
+  }
+
+  resetCellPositioner = () => {
+    this.cellPositioner.reset({
+      columnCount: this.columnCount,
+      columnWidth: this.columnWidth,
+      spacer: this.spacer,
+    })
+
+    if (this.masonry) {
+      this.masonry.recomputeCellPositions()
+    }
+  }
+
   render() {
-    const { recipes, ships, items, types, time } = this.state
+    const { recipes, time, cellIndex } = this.state
     const { classes } = this.props
     return (
       <div>
@@ -71,17 +122,36 @@ class MainView extends Component {
           <LinearProgress />
         }
         <div className={classes.main}>
+
           {
-            Object.keys(recipes).map(itemId => (
-              <Recipe
-                key={itemId}
-                item={items[itemId]}
-                items={items}
-                recipe={recipes[itemId]}
-                ships={ships}
-                types={types}
-              />
-            ))
+            !!cellIndex.length &&
+              <WindowScroller>
+                {
+                  ({ height, scrollTop }) => (
+                    <AutoSizer
+                      disableHeight
+                      scrollTop={scrollTop}
+                      onResize={this.handleResize}
+                    >
+                      {
+                        ({ width }) => (
+                          <Masonry
+                            autoHeight
+                            cellCount={cellIndex.length}
+                            cellMeasurerCache={this.cellMeasurerCache}
+                            cellPositioner={this.cellPositioner}
+                            cellRenderer={this.cellRenderer}
+                            scrollTop={scrollTop}
+                            height={height}
+                            width={width}
+                            ref={(ref) => { this.masonry = ref }}
+                          />
+                        )
+                      }
+                    </AutoSizer>
+                  )
+                }
+              </WindowScroller>
           }
         </div>
         <div className={classes.footer}>

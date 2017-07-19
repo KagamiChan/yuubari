@@ -10,8 +10,7 @@ import Stage from './stage'
 
 const styles = createStyleSheet('Recipe', {
   card: {
-    width: '100%',
-    marginBottom: '1em',
+    margin: '5px',
     breakInside: 'avoid',
   },
   commonCost: {
@@ -31,11 +30,11 @@ const styles = createStyleSheet('Recipe', {
 
 class Recipe extends Component {
   render() {
-    const { classes, recipe, item, ships, items, types } = this.props
+    const { classes, recipe, item, ships, items, types, style } = this.props
     const { common, stage } = recipe
     const type = types[item.api_type[2]]
     return (
-      <Card className={classes.card}>
+      <Card className={classes.card} style={style}>
         <CardContent>
           <Typography type="body2">{type.api_name}</Typography>
           <Typography type="headline">{item.api_name}</Typography>
