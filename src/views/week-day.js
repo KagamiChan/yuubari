@@ -7,6 +7,11 @@ import { withStyles, createStyleSheet } from 'material-ui/styles'
 
 const now = new Date()
 
+const days = range(7).map((i) => {
+  const date = setDay(now, i, { weekStartsOn: 0 })
+  return date.toLocaleString(window.navigator.language, { weekday: 'narrow' })
+})
+
 const styles = createStyleSheet('WeekDay', theme => ({
   week: {
     display: 'flex',
@@ -28,19 +33,16 @@ const styles = createStyleSheet('WeekDay', theme => ({
 const WeekDay = ({ day = [], classes }) => (
   <div className={classes.week}>
     {
-      range(7).map((i) => {
-        const date = setDay(now, i, { weekStartsOn: 0 })
-        const str = date.toLocaleString(window.navigator.language, { weekday: 'narrow' })
-        return (
-          <div
-            className={cls(classes.day, {
-              [classes.on]: day.includes(i),
-            })}
-          >
-            {str}
-          </div>
-        )
-      })
+      range(7).map(i => (
+        <div
+          key={i}
+          className={cls(classes.day, {
+            [classes.on]: day.includes(i),
+          })}
+        >
+          {days[i]}
+        </div>
+      ))
     }
   </div>
 )

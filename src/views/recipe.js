@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
-import Card, { CardActions, CardContent } from 'material-ui/Card'
-import Chip from 'material-ui/Chip'
+import Card, { CardContent } from 'material-ui/Card'
 import Typography from 'material-ui/Typography'
 
 import { withStyles, createStyleSheet } from 'material-ui/styles'
@@ -40,7 +39,7 @@ class Recipe extends Component {
         <CardContent>
           <Typography type="body2">{type.api_name}</Typography>
           <Typography type="headline">{item.api_name}</Typography>
-          <Typography type="body1" className={classes.commonCost}>
+          <div className={classes.commonCost}>
             {
               ['fuel', 'ammo', 'steel', 'bauxite'].map(cost => (
                 <Stat key={cost} label={cost} className={classes.cost}>
@@ -48,14 +47,14 @@ class Recipe extends Component {
                 </Stat>
               ))
             }
-          </Typography>
-          <Typography type="body1" className={classes.stages}>
+          </div>
+          <div className={classes.stages}>
             {
               [0, 1, 2].map(level =>
                 <Stage key={level} level={level} detail={stage[level]} ships={ships} items={items} className={classes.stage} />
               )
             }
-          </Typography>
+          </div>
         </CardContent>
       </Card>
     )

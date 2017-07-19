@@ -56,7 +56,7 @@ const Stage = ({ level, detail, items, ships, classes, ...props }) => {
             return Object.keys(entry).map((upgradeItemId) => {
               const upEntry = entry[upgradeItemId]
               return (
-                <div className={classes.recipe}>
+                <div className={classes.recipe} key={upgradeItemId}>
                   <div className={classes.recipeCost}>
                     <Stat label="To" className={classes.cost}>
                       {get(items[upgradeItemId], 'api_name')}
@@ -99,7 +99,7 @@ const Stage = ({ level, detail, items, ships, classes, ...props }) => {
         Object.keys(detail).map((shipId) => {
           const entry = detail[shipId]
           return (
-            <div className={classes.recipe}>
+            <div className={classes.recipe} key={shipId}>
               <div className={classes.recipeCost}>
                 <Stat label="Build kit" className={classes.cost}>
                   {entry.buildkit} / {entry.certainBuildkit}
