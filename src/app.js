@@ -7,7 +7,7 @@ import MainView from './views/main'
 
 const { Content, Footer } = Layout
 
-const MinContent = styled(Content)`
+const MainContent = styled(Content)`
   padding: 0 50px;
   margin-top: 64px;
 `
@@ -15,9 +15,9 @@ const MinContent = styled(Content)`
 const App = () => (
   <Layout>
     <Head />
-    <MinContent>
+    <MainContent>
       <MainView />
-    </MinContent>
+    </MainContent>
     <Footer>
 
     </Footer>
