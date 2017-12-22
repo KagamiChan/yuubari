@@ -5,20 +5,20 @@
   "homepage": "https://kagamichan.github.io/yuubari",
   "dependencies": {
     "classnames": "^2.2.5",
-    "date-fns": "^1.28.5",
+    "date-fns": "^1.29.0",
     "lodash": "^4.17.4",
     "material-design-icons-iconfont-only": "^3.0.1",
-    "material-ui": "next",
+    "material-ui": "^1.0.0-alpha.21",
     "material-ui-icons": "^1.0.0-alpha.19",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-redux": "^5.0.5",
-    "react-router": "^4.1.1",
-    "react-scripts": "1.0.10",
-    "react-virtualized": "^9.9.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-scripts": "1.0.17",
+    "react-virtualized": "^9.14.1",
     "redux": "^3.7.2",
     "reselect": "^3.0.1",
-    "typeface-roboto": "^0.0.31"
+    "typeface-roboto": "^0.0.45"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -29,12 +29,12 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "eslint": "3",
-    "eslint-config-airbnb": "^15.0.2",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "5",
-    "eslint-plugin-react": "^7.1.0",
-    "gh-pages": "^1.0.0"
+    "babel-eslint": "^8.0.3",
+    "eslint": "4.13.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "gh-pages": "^1.1.0"
   }
 }
