@@ -4,12 +4,9 @@
   "private": true,
   "homepage": "https://kagamichan.github.io/yuubari",
   "dependencies": {
-    "classnames": "^2.2.5",
+    "antd": "^3.0.2",
     "date-fns": "^1.29.0",
     "lodash": "^4.17.4",
-    "material-design-icons-iconfont-only": "^3.0.1",
-    "material-ui": "^1.0.0-alpha.21",
-    "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -18,7 +15,7 @@
     "react-virtualized": "^9.14.1",
     "redux": "^3.7.2",
     "reselect": "^3.0.1",
-    "typeface-roboto": "^0.0.45"
+    "styled-components": "^2.3.3"
   },
   "scripts": {
     "predeploy": "npm run build",

@@ -1,30 +1,31 @@
 import React, { Component } from 'react'
 import keyBy from 'lodash/keyBy'
 import format from 'date-fns/format'
-import { CellMeasurer, CellMeasurerCache, createMasonryCellPositioner, Masonry, AutoSizer, WindowScroller } from 'react-virtualized'
-
-import Typography from 'material-ui/Typography'
-import { LinearProgress } from 'material-ui/Progress'
+import {
+  CellMeasurer,
+  CellMeasurerCache,
+  createMasonryCellPositioner,
+  Masonry,
+  AutoSizer,
+  WindowScroller,
+} from 'react-virtualized'
+import { Spin } from 'antd'
+import styled from 'styled-components'
 
 import Recipe from './recipe'
 
-import { withStyles, createStyleSheet } from 'material-ui/styles'
+const MainWrapper = styled.div`
+  margin: 2em 4em;
+`
 
-const styles = createStyleSheet('Main', {
-  main: {
-    margin: '2em 4em 2em 4em',
-  },
-  footer: {
-    textAlign: 'center',
-    height: '2em',
-  },
-  masonry: {
-    outline: 'none',
-    '&>div': {
-      paddingBottom: '10px',
-    },
-  },
-})
+const MainMasonry = styled(Masonry)`
+  outline: none;
+  >div {
+    padding-bottom: 10px;
+  }
+`
+
+const INIT_COLUMN_WITH = 500
 
 class MainView extends Component {
   state = {
@@ -68,7 +69,7 @@ class MainView extends Component {
   }
 
   columnCount = 3
-  columnWidth = 550
+  columnWidth = INIT_COLUMN_WITH
   spacer = 16
 
   cellMeasurerCache = new CellMeasurerCache({
@@ -84,8 +85,12 @@ class MainView extends Component {
     spacer: this.spacer,
   })
 
-  cellRenderer = ({ index, key, parent, style }) => {
-    const { recipes, ships, items, types, cellIndex } = this.state
+  cellRenderer = ({
+    index, key, parent, style,
+  }) => {
+    const {
+      recipes, ships, items, types, cellIndex,
+    } = this.state
     const itemId = cellIndex[index]
     return (
       <CellMeasurer cache={this.cellMeasurerCache} index={index} key={key} parent={parent}>
@@ -102,7 +107,8 @@ class MainView extends Component {
   }
 
   handleResize = ({ width }) => {
-    this.columnCount = Math.floor(width / (this.columnWidth + this.spacer))
+    this.columnCount = Math.floor(width / (INIT_COLUMN_WITH + this.spacer))
+    this.columnWidth = Math.floor(((width - (this.spacer * (this.columnCount - 1))) / this.columnCount))
     this.resetCellPositioner()
   }
 
@@ -120,15 +126,13 @@ class MainView extends Component {
 
   render() {
     const { recipes, time, cellIndex } = this.state
-    const { classes } = this.props
     return (
       <div>
         {
           !Object.keys(recipes).length &&
-          <LinearProgress />
+          <Spin />
         }
-        <div className={classes.main}>
-
+        <MainWrapper>
           {
             !!cellIndex.length &&
               <WindowScroller>
@@ -141,7 +145,7 @@ class MainView extends Component {
                     >
                       {
                         ({ width }) => (
-                          <Masonry
+                          <MainMasonry
                             autoHeight
                             cellCount={cellIndex.length}
                             cellMeasurerCache={this.cellMeasurerCache}
@@ -150,8 +154,7 @@ class MainView extends Component {
                             scrollTop={scrollTop}
                             height={height}
                             width={width}
-                            ref={(ref) => { this.masonry = ref }}
-                            className={classes.masonry}
+                            innerRef={(ref) => { this.masonry = ref }}
                           />
                         )
                       }
@@ -160,16 +163,14 @@ class MainView extends Component {
                 }
               </WindowScroller>
           }
-        </div>
-        <div className={classes.footer}>
-          <Typography type="button">
-            <span>Made with 🍈. </span>
-            { !!time && `Last update: ${format(time, 'YYYY-MM-DD HH:mm:ss')}`}
-          </Typography>
+        </MainWrapper>
+        <div>
+          <span>Made with 🍈. </span>
+          { !!time && `Last update: ${format(time, 'YYYY-MM-DD HH:mm:ss')}`}
         </div>
       </div>
     )
   }
 }
 
-export default withStyles(styles)(MainView)
+export default MainView

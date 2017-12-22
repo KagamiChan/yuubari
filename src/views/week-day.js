@@ -1,9 +1,25 @@
 import React from 'react'
 import range from 'lodash/range'
 import setDay from 'date-fns/set_day'
-import cls from 'classnames'
+import styled, { css } from 'styled-components'
 
-import { withStyles, createStyleSheet } from 'material-ui/styles'
+const Week = styled.div`
+  display: flex;
+`
+
+const Day = styled.div`
+  font-size: 60%;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  line-height: 2em;
+  border: solid 1px #333;
+  margin-left: -1px;
+
+  ${props => props.on && css`
+    background: #8BC34A;
+  `}
+`
 
 const now = new Date()
 
@@ -12,39 +28,20 @@ const days = range(7).map((i) => {
   return date.toLocaleString(window.navigator.language, { weekday: 'narrow' })
 })
 
-const styles = createStyleSheet('WeekDay', theme => ({
-  week: {
-    display: 'flex',
-  },
-  day: {
-    fontSize: '60%',
-    width: '2em',
-    height: '2em',
-    textAlign: 'center',
-    lineHeight: '2em',
-    border: `solid 1px ${theme.palette.primary[500]}`,
-    marginLeft: '-1px',
-  },
-  on: {
-    backgroundColor: theme.palette.primary[500],
-  },
-}))
 
-const WeekDay = ({ day = [], classes }) => (
-  <div className={classes.week}>
+const WeekDay = ({ day = [] }) => (
+  <Week>
     {
       range(7).map(i => (
-        <div
+        <Day
+          on={day.includes(i)}
           key={i}
-          className={cls(classes.day, {
-            [classes.on]: day.includes(i),
-          })}
         >
           {days[i]}
-        </div>
+        </Day>
       ))
     }
-  </div>
+  </Week>
 )
 
-export default withStyles(styles)(WeekDay)
+export default WeekDay

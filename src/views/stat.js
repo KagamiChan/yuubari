@@ -1,31 +1,32 @@
 import React from 'react'
+import styled from 'styled-components'
 
-import { withStyles, createStyleSheet } from 'material-ui/styles'
+const StatWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
-const styles = createStyleSheet('Stat', {
-  stat: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  value: {
-    fontSize: '2em',
-  },
-})
+const Value = styled.div`
+  font-size: 2em;
+`
 
-const Stat = ({ label, value, classes, children, ...props }) => (
-  <div className={classes.stat} {...props}>
-    <div className={classes.label}>
+const Stat = ({
+  label, value, children, ...props
+}) => (
+  <StatWrapper {...props}>
+    <div>
       {label}
     </div>
-    { value &&
-      <div className={classes.value}>
+    {
+      value &&
+      <Value>
         {value}
-      </div>
+      </Value>
     }
     {
       children
     }
-  </div>
+  </StatWrapper>
 )
 
-export default withStyles(styles)(Stat)
+export default Stat

@@ -1,37 +1,33 @@
 import React from 'react'
-import Typography from 'material-ui/Typography'
 import get from 'lodash/get'
+import styled from 'styled-components'
 
 import Stat from './stat'
-
-import { withStyles, createStyleSheet } from 'material-ui/styles'
-
 import WeekDay from './week-day'
 
-const styles = createStyleSheet('Stage', theme => ({
-  item: {
-    display: 'flex',
-  },
-  shipName: {
-    flexGrow: 1,
-  },
-  recipeCost: {
-    display: 'flex',
-  },
-  cost: {
-    '&:not(:last-child)': {
-      marginRight: '2ex',
-    },
-  },
-  recipe: {
-    '&:not(:last-of-type)': {
-      marginBottom: '1ex',
-    },
-  },
-  header: {
-    backgroundColor: theme.palette.accent[100],
-  },
-}))
+const Recipe = styled.div`
+  :not(:last-of-type) {
+    margin-bottom: 1ex;
+  }
+`
+
+const Item = styled.div`
+  display: flex;
+`
+
+const Ship = styled.div`
+  flex-grow: 1;
+`
+
+const Cost = styled.div`
+  display: flex;
+`
+
+const CostStat = styled(Stat)`
+  :not(:last-of-type) {
+    margin-right: 1ex;
+  }
+`
 
 const stages = [
   <span>1 ~ 6</span>,
@@ -39,7 +35,9 @@ const stages = [
   <span>Upgrade</span>,
 ]
 
-const Stage = ({ level, detail, items, ships, classes, ...props }) => {
+const Stage = ({
+  level, detail, items, ships, ...props
+}) => {
   if (!detail) {
     return false
   }
@@ -47,41 +45,39 @@ const Stage = ({ level, detail, items, ships, classes, ...props }) => {
   if (level === 2) {
     return (
       <div {...props}>
-        <Typography type="button" className={classes.header}>
-          {stages[level]}
-        </Typography>
+        {stages[level]}
         {
           Object.keys(detail).map((shipId) => {
             const entry = detail[shipId]
             return Object.keys(entry).map((upgradeItemId) => {
               const upEntry = entry[upgradeItemId]
               return (
-                <div className={classes.recipe} key={upgradeItemId}>
-                  <div className={classes.recipeCost}>
-                    <Stat label="To" className={classes.cost}>
+                <Recipe key={upgradeItemId}>
+                  <Cost>
+                    <CostStat label="To">
                       {get(items[upgradeItemId], 'api_name')}
                       {!!upEntry.upgradeToItemLevel && `lv${upEntry.upgradeToItemLevel}`}
-                    </Stat>
-                    <Stat label="Build kit" className={classes.cost}>
+                    </CostStat>
+                    <CostStat label="Build kit">
                       {upEntry.buildkit} / {upEntry.certainBuildkit}
-                    </Stat>
-                    <Stat label="Remodel kit" className={classes.cost}>
+                    </CostStat>
+                    <CostStat label="Remodel kit">
                       {upEntry.remodelkit} / {upEntry.certainRemodelkit}
-                    </Stat>
+                    </CostStat>
                     {
                       upEntry.reqItemId > 0 &&
-                      <Stat label="Item" className={classes.cost}>
+                      <CostStat label="Item">
                         {get(items[upEntry.reqItemId], 'api_name')} × {upEntry.reqItemCount}
-                      </Stat>
+                      </CostStat>
                     }
-                  </div>
-                  <div className={classes.item}>
-                    <div className={classes.shipName}>
+                  </Cost>
+                  <Item>
+                    <Ship>
                       {get(ships[shipId], 'api_name', 'Any')}
-                    </div>
+                    </Ship>
                     <WeekDay day={upEntry.day} />
-                  </div>
-                </div>
+                  </Item>
+                </Recipe>
               )
             })
           })
@@ -92,35 +88,33 @@ const Stage = ({ level, detail, items, ships, classes, ...props }) => {
 
   return (
     <div {...props}>
-      <Typography type="button" className={classes.header}>
-        {stages[level]}
-      </Typography>
+      {stages[level]}
       {
         Object.keys(detail).map((shipId) => {
           const entry = detail[shipId]
           return (
-            <div className={classes.recipe} key={shipId}>
-              <div className={classes.recipeCost}>
-                <Stat label="Build kit" className={classes.cost}>
+            <Recipe key={shipId}>
+              <Cost>
+                <CostStat label="Build kit">
                   {entry.buildkit} / {entry.certainBuildkit}
-                </Stat>
-                <Stat label="Remodel kit" className={classes.cost}>
+                </CostStat>
+                <CostStat label="Remodel kit">
                   {entry.remodelkit} / {entry.certainRemodelkit}
-                </Stat>
+                </CostStat>
                 {
                   entry.reqItemId > 0 &&
-                  <Stat label="Item" className={classes.cost}>
+                  <CostStat label="Item">
                     {get(items[entry.reqItemId], 'api_name')} × {entry.reqItemCount}
-                  </Stat>
+                  </CostStat>
                 }
-              </div>
-              <div className={classes.item}>
-                <div className={classes.shipName}>
+              </Cost>
+              <Item>
+                <Ship>
                   {get(ships[shipId], 'api_name', 'Any')}
-                </div>
+                </Ship>
                 <WeekDay day={entry.day} />
-              </div>
-            </div>
+              </Item>
+            </Recipe>
           )
         })
       }
@@ -128,4 +122,4 @@ const Stage = ({ level, detail, items, ships, classes, ...props }) => {
   )
 }
 
-export default withStyles(styles)(Stage)
+export default Stage

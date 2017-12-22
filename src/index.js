@@ -2,26 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-
-import { MuiThemeProvider, createMuiTheme, createPalette } from 'material-ui/styles'
-import lightGreen from 'material-ui/colors/lightGreen'
-import amber from 'material-ui/colors/amber'
+import 'antd/dist/antd.css'
 
 import { Yuubari } from './redux'
-
-import 'typeface-roboto/index.css'
-import 'material-design-icons-iconfont-only/iconfont/material-icons.css'
 
 import './index.css'
 import App from './app'
 import registerServiceWorker from './registerServiceWorker'
-
-const theme = createMuiTheme({
-  palette: createPalette({
-    primary: lightGreen,
-    accent: amber,
-  }),
-})
 
 const store = createStore(
   Yuubari,
@@ -30,9 +17,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider theme={theme}>
-      <App />
-    </MuiThemeProvider>
+    <App />
   </Provider>,
   document.getElementById('root'),
 )
