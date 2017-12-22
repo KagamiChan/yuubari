@@ -2,7 +2,7 @@ const initialState = {
   ships: {},
   items: {},
   types: {},
-  recipes: {},
+  recipes: [],
   count: 0,
   time: 0,
   query: '',

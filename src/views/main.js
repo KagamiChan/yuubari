@@ -13,11 +13,10 @@ import { Spin } from 'antd'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
-import { filter, mapValues, toArray } from 'lodash'
+import { filter, entries, map } from 'lodash'
 
 import { updateData } from '../redux'
 import Recipe from './recipe'
-import recipe from './recipe';
 
 const MainWrapper = styled.div`
   margin: 2em 4em;
@@ -32,12 +31,22 @@ const MainMasonry = styled(Masonry)`
 
 const INIT_COLUMN_WITH = 500
 
+const recipesSelector = createSelector(
+  [
+    state => state.items,
+    state => state.recipes,
+    state => state.query,
+  ], (items, recipes, query) => filter(recipes, recipe =>
+    String(recipe.item).includes(query)
+  )
+)
+
 const MainView = connect(
   state => ({
     ships: state.ships,
     items: state.items,
     types: state.types,
-    recipes: state.recipes,
+    recipes: recipesSelector(state),
     count: state.count,
     time: state.time,
     query: state.query,
@@ -58,17 +67,23 @@ const MainView = connect(
         types,
         ...recipesData,
       }))
-      this.setState({
-        cellIndex: Object.keys(recipesData.recipes),
-      })
     } catch (e) {
       console.error(e)
     }
   }
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.query !== this.props.query) {
+      this.resetCellPositioner()
+    }
+  }
+
   fetchRecipes = async () => {
     const res = await fetch('//poi.0u0.moe/api/recipe/full')
-    return res.json()
+    const data = await res.json()
+
+    data.recipes = map(entries(data.recipes), ([id, datum]) => ({ ...datum, item: Number(id) }))
+    return data
   }
 
   fetchStart2 = async () => {
@@ -105,17 +120,14 @@ const MainView = connect(
     const {
       recipes, ships, items, types
     } = this.props
-    const {
-      cellIndex,
-    } = this.state
-    const itemId = cellIndex[index]
+    const recipe = recipes[index] || {}
     return (
       <CellMeasurer cache={this.cellMeasurerCache} index={index} key={key} parent={parent}>
         <Recipe
           style={style}
-          item={items[itemId]}
+          item={items[recipe.item]}
           items={items}
-          recipe={recipes[itemId]}
+          recipe={recipe}
           ships={ships}
           types={types}
         />
@@ -143,16 +155,15 @@ const MainView = connect(
 
   render() {
     const { recipes, time } = this.props
-    const { cellIndex } = this.state
     return (
       <div>
         {
-          !Object.keys(recipes).length &&
+          !recipes.length &&
           <Spin />
         }
         <MainWrapper>
           {
-            !!cellIndex.length &&
+            !!recipes.length &&
               <WindowScroller>
                 {
                   ({ height, scrollTop }) => (
@@ -165,7 +176,7 @@ const MainView = connect(
                         ({ width }) => (
                           <MainMasonry
                             autoHeight
-                            cellCount={cellIndex.length}
+                            cellCount={recipes.length}
                             cellMeasurerCache={this.cellMeasurerCache}
                             cellPositioner={this.cellPositioner}
                             cellRenderer={this.cellRenderer}
