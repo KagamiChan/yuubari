@@ -11,8 +11,13 @@ import {
 } from 'react-virtualized'
 import { Spin } from 'antd'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { createSelector } from 'reselect'
+import { filter, mapValues, toArray } from 'lodash'
 
+import { updateData } from '../redux'
 import Recipe from './recipe'
+import recipe from './recipe';
 
 const MainWrapper = styled.div`
   margin: 2em 4em;
@@ -27,12 +32,19 @@ const MainMasonry = styled(Masonry)`
 
 const INIT_COLUMN_WITH = 500
 
-class MainView extends Component {
+const MainView = connect(
+  state => ({
+    ships: state.ships,
+    items: state.items,
+    types: state.types,
+    recipes: state.recipes,
+    count: state.count,
+    time: state.time,
+    query: state.query,
+  })
+)(class MainView extends Component {
   state = {
     loading: false,
-    time: 0,
-    count: 0,
-    recipes: {},
     cellIndex: [],
   }
 
@@ -40,12 +52,14 @@ class MainView extends Component {
     try {
       const { ships, items, types } = await this.fetchStart2()
       const recipesData = await this.fetchRecipes()
-      this.setState({
+      this.props.dispatch(updateData({
         ships,
         items,
         types,
-        cellIndex: Object.keys(recipesData.recipes),
         ...recipesData,
+      }))
+      this.setState({
+        cellIndex: Object.keys(recipesData.recipes),
       })
     } catch (e) {
       console.error(e)
@@ -89,7 +103,10 @@ class MainView extends Component {
     index, key, parent, style,
   }) => {
     const {
-      recipes, ships, items, types, cellIndex,
+      recipes, ships, items, types
+    } = this.props
+    const {
+      cellIndex,
     } = this.state
     const itemId = cellIndex[index]
     return (
@@ -125,7 +142,8 @@ class MainView extends Component {
   }
 
   render() {
-    const { recipes, time, cellIndex } = this.state
+    const { recipes, time } = this.props
+    const { cellIndex } = this.state
     return (
       <div>
         {
@@ -171,6 +189,6 @@ class MainView extends Component {
       </div>
     )
   }
-}
+})
 
 export default MainView

@@ -11,8 +11,7 @@ const initialState = {
 export const Yuubari = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
-    case 'SAVE_DATA2':
-    case 'SAVE_RECIPE':
+    case 'UPDATE_DATA':
     case 'UPDATE_QUERY':
       return {
         ...state,
@@ -23,13 +22,8 @@ export const Yuubari = (state = initialState, action) => {
   }
 }
 
-export const saveData2 = payload => ({
-  type: 'SAVE_DATA2',
-  payload,
-})
-
-export const saveRecipe = payload => ({
-  type: 'SAVE_RECIPE',
+export const updateData = payload => ({
+  type: 'UPDATE_DATA',
   payload,
 })
 
